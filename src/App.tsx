@@ -1,0 +1,133 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import PublicLayout from "./layouts/PublicLayout";
+import MySpaceLayout from "./layouts/MySpaceLayout";
+
+import LandingPage from "./pages/public/LandingPage";
+import AuthPage from "./pages/public/AuthPage";
+
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import Dashboard from "./pages/dashboard/Dashboard";
+import Hackathons from "./pages/shared/Hackathons";
+import Settings from "./pages/shared/Settings";
+
+import Team from "./pages/participant/Team";
+import Submission from "./pages/participant/Submission";
+
+import Evaluations from "./pages/judge/Evaluations";
+
+import Users from "./pages/admin/Users";
+
+export default function App(): React.JSX.Element {
+
+    return (
+
+        <BrowserRouter>
+
+            <Routes>
+
+                {/* ---------------- Public ---------------- */}
+
+                <Route element={<PublicLayout />}>
+
+                    <Route index element={<LandingPage />} />
+
+                    <Route path="login" element={<AuthPage />} />
+
+                    <Route path="register" element={<AuthPage />} />
+
+                </Route>
+
+                {/* ---------------- Protected ---------------- */}
+
+                <Route
+                    path="/myspace"
+                    element={
+                        <ProtectedRoute>
+                            <MySpaceLayout />
+                        </ProtectedRoute>
+                    }
+                >
+
+                    {/* /myspace */}
+                    <Route
+                        index
+                        element={<Dashboard />}
+                    />
+
+                    {/* /myspace/dashboard */}
+                    <Route
+                        path="dashboard"
+                        element={<Dashboard />}
+                    />
+
+                    {/* Shared */}
+                    <Route
+                        path="hackathons"
+                        element={<Hackathons />}
+                    />
+
+                    <Route
+                        path="settings"
+                        element={<Settings />}
+                    />
+
+                    {/* Participant */}
+                    <Route
+                        path="teams"
+                        element={
+                            <ProtectedRoute roles={["PARTICIPANT"]}>
+                                <Team />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="submissions"
+                        element={
+                            <ProtectedRoute roles={["PARTICIPANT"]}>
+                                <Submission />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Judge */}
+                    <Route
+                        path="evaluations"
+                        element={
+                            <ProtectedRoute roles={["JUDGE"]}>
+                                <Evaluations />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    {/* Admin */}
+                    <Route
+                        path="users"
+                        element={
+                            <ProtectedRoute roles={["ADMIN"]}>
+                                <Users />
+                            </ProtectedRoute>
+                        }
+                    />
+                <Route
+                    path="*"
+                    element={<Navigate to="/myspace" replace />}
+                  />
+                </Route>
+
+                {/* 404 */}
+
+                <Route
+                    path="*"
+                    element={<Navigate to="/" replace />}
+                />
+
+            </Routes>
+
+        </BrowserRouter>
+
+    );
+
+}
