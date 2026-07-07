@@ -3,8 +3,7 @@ import type {
     LoginRequest,
     RegisterRequest,
     AuthUser,
-    AuthResponse,
-    UserResponse,
+    AuthResponse
 } from "../api/auth.api";
 
 const TOKEN_KEY = "token";

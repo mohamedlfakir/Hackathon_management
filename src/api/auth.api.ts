@@ -27,7 +27,7 @@ export interface AuthUser {
     first_name: string;
     last_name: string;
     email?: string;
-    role: "ADMIN" | "PARTICIPANT" | "JUDGE" | "MANAGER";
+    role: "ADMIN" | "PARTICIPANT" | "JUDGE" | "ORGANIZER";
     bio?: string | null;
     avatar_path?: string | null;
     created_at: string;

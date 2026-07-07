@@ -1,0 +1,182 @@
+import * as hackathonApi from "../api/hackathon.api";
+
+import type {
+    CreateHackathonRequest,
+    UpdateHackathonRequest,
+} from "../api/hackathon.api";
+
+export async function getAllHackathons(params?: any) {
+    const response = await hackathonApi.getAllHackathons(params);
+    return response; 
+}
+
+export async function getHackathonById(id: number) {
+
+    const response = await hackathonApi.getHackathonById(id);
+
+    return response.hackathon;
+
+}
+
+export async function createHackathon(
+    payload: CreateHackathonRequest
+) {
+
+    const response = await hackathonApi.createHackathon(
+        payload
+    );
+
+    return response.hackathon;
+
+}
+
+export async function updateHackathon(
+    id: number,
+    payload: UpdateHackathonRequest
+) {
+
+    const response = await hackathonApi.updateHackathon(
+        id,
+        payload
+    );
+
+    return response.hackathon;
+
+}
+
+export async function deleteHackathon(id: number) {
+
+    return await hackathonApi.deleteHackathon(id);
+
+}
+
+export async function registerParticipant(id: number) {
+
+    const response = await hackathonApi.registerParticipant(id);
+
+    return response.registration;
+
+}
+
+export async function unregisterParticipant(id: number) {
+
+    return await hackathonApi.unregisterParticipant(id);
+
+}
+
+export async function getSoloParticipants(id: number) {
+
+    const response = await hackathonApi.getSoloParticipants(id);
+
+    return response.participants;
+
+}
+
+export async function getHackathonParticipants(id: number) {
+
+    const response = await hackathonApi.getHackathonParticipants(id);
+
+    return response.participants;
+
+}
+
+export async function assignJudge(
+    hackathonId: number,
+    judgeId: number
+) {
+
+    const response = await hackathonApi.assignJudge(
+        hackathonId,
+        judgeId
+    );
+
+    return response.assignment;
+
+}
+
+export async function removeJudge(
+    hackathonId: number,
+    judgeId: number
+) {
+
+    return await hackathonApi.removeJudge(
+        hackathonId,
+        judgeId
+    );
+
+}
+
+export async function getHackathonJudges(
+    hackathonId: number
+) {
+
+    const response = await hackathonApi.getHackathonJudges(
+        hackathonId
+    );
+
+    return response.judges;
+
+}
+
+export async function getJudgeHackathons(
+    judgeId: number
+) {
+
+    const response = await hackathonApi.getJudgeHackathons(
+        judgeId
+    );
+
+    return response.hackathons;
+
+}
+
+
+export async function getHackathonTeams(
+    hackathonId: number
+) {
+ 
+    const response = await hackathonApi.getHackathonTeams(
+        hackathonId
+    );
+ 
+    return response.teams;
+ 
+}
+ 
+export async function registerTeam(
+    hackathonId: number,
+    teamId: number
+) {
+ 
+    const response = await hackathonApi.registerTeam(
+        hackathonId,
+        teamId
+    );
+ 
+    return response.team;
+ 
+}
+ 
+export async function unregisterTeam(
+    hackathonId: number,
+    teamId: number
+) {
+ 
+    return await hackathonApi.unregisterTeam(
+        hackathonId,
+        teamId
+    );
+ 
+}
+ 
+export async function getHackathonSubmissions(
+    hackathonId: number
+) {
+ 
+    const response = await hackathonApi.getHackathonSubmissions(
+        hackathonId
+    );
+ 
+    return response.submissions;
+ 
+}

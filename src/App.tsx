@@ -9,7 +9,7 @@ import AuthPage from "./pages/public/AuthPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Dashboard from "./pages/dashboard/Dashboard";
-import Hackathons from "./pages/shared/Hackathons";
+import Hackathons from "./pages/admin/hackathons/Hackathons";
 import Settings from "./pages/shared/Settings";
 
 import Team from "./pages/participant/Team";
@@ -17,7 +17,8 @@ import Submission from "./pages/participant/Submission";
 
 import Evaluations from "./pages/judge/Evaluations";
 
-import Users from "./pages/admin/Users";
+import Users from "./pages/admin/users/Users";
+import HackathonDetailsPage from "./pages/admin/hackathons/HackathonDetailsPage";
 
 export default function App(): React.JSX.Element {
 
@@ -66,8 +67,13 @@ export default function App(): React.JSX.Element {
                     <Route
                         path="hackathons"
                         element={<Hackathons />}
-                    />
-
+                    >
+                        
+                    </Route>
+                    <Route
+                            path="hackathons/:id"
+                            element={<HackathonDetailsPage />}
+                        />
                     <Route
                         path="settings"
                         element={<Settings />}
@@ -77,7 +83,7 @@ export default function App(): React.JSX.Element {
                     <Route
                         path="teams"
                         element={
-                            <ProtectedRoute roles={["PARTICIPANT"]}>
+                            <ProtectedRoute roles={["PARTICIPANT", "ADMIN", "MANAGER"]}>
                                 <Team />
                             </ProtectedRoute>
                         }
@@ -86,7 +92,7 @@ export default function App(): React.JSX.Element {
                     <Route
                         path="submissions"
                         element={
-                            <ProtectedRoute roles={["PARTICIPANT"]}>
+                            <ProtectedRoute roles={["PARTICIPANT", "ADMIN", "MANAGER"]}>
                                 <Submission />
                             </ProtectedRoute>
                         }
@@ -96,7 +102,7 @@ export default function App(): React.JSX.Element {
                     <Route
                         path="evaluations"
                         element={
-                            <ProtectedRoute roles={["JUDGE"]}>
+                            <ProtectedRoute roles={["JUDGE", "ADMIN"]}>
                                 <Evaluations />
                             </ProtectedRoute>
                         }

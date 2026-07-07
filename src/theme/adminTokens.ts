@@ -48,7 +48,7 @@ export const adminFonts = fonts;
 // profile menu and anywhere else a role needs to be displayed.
 export const roleLabels: Record<string, string> = {
   ADMIN: "Admin",
-  MANAGER: "Organisateur",
+  ORGANIZER: "Organisateur",
   JUDGE: "Juré",
   PARTICIPANT: "Participant",
 };

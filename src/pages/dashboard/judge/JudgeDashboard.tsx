@@ -1,11 +1,11 @@
-// src/pages/dashboard/Dashboard.tsx
+// src/pages/shared/Hackathons.tsx
 import { Link } from 'react-router-dom';
 
-export default function Users() {
+export default function JudgeDashboard() {
   return (
     <div className="w-full">
-        <h1 className="text-2xl font-bold mb-4">Users</h1>
-        <p className="mb-6">Here you can manage your users.</p>
+        <h1 className="text-2xl font-bold mb-4">Judge Dashboard</h1>
+        <p className="mb-6">Welcome to your judge dashboard!</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Link to="/hackathons" className="bg-blue-500 text-white px-6 py-4 rounded-lg shadow hover:bg-blue-600 transition-colors">
                 Manage Hackathons

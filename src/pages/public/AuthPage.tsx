@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import api from '../../api/api'; // Resolves correctly if api.ts is located in src/api.ts
 import { colors, fonts } from "../../theme/tokens";
 import {  Sparkles } from "lucide-react";
 import { useAuth } from '../../contexts/AuthContext';
@@ -89,7 +88,7 @@ export default function AuthPage(): React.JSX.Element {
             password: loginPassword,
         });
 
-        navigate("/dashboard");
+        navigate("/myspace");
 
     } catch (err: unknown) {
 
@@ -146,7 +145,7 @@ export default function AuthPage(): React.JSX.Element {
 
         });
 
-        navigate("/dashboard");
+        navigate("/myspace");
 
     } catch (err: unknown) {
 
