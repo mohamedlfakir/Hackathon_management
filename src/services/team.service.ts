@@ -5,14 +5,22 @@ import type {
     UpdateTeamRequest,
 } from "../api/team.api";
 
+export interface GetTeamsParams {
+  page: number;
+  limit: number;
+  search: string;
+  sortBy: string;
+  sortOrder: "asc" | "desc";
+}
+
 /**
  * Get all teams
  */
-export async function getAllTeams() {
+export async function getAllTeams(params: GetTeamsParams) {
 
-    const response = await teamApi.getAllTeams();
+    const response = await teamApi.getAllTeams(params);
 
-    return response.teams;
+    return response;
 
 }
 
@@ -68,15 +76,31 @@ export async function deleteTeam(id: number) {
 
 }
 
+
 /**
- * Join team
+ * Add a member to a team
  */
-export async function joinTeam(id: number) {
+export async function addTeamMember(
+    teamId: number,
+    userId: number
+) {
+    return await teamApi.addTeamMember(
+        teamId,
+        userId
+    );
+}
 
-    const response = await teamApi.joinTeam(id);
-
-    return response.membership;
-
+/**
+ * Remove member from a team
+ */
+export async function removeTeamMember(
+    teamId: number,
+    userId: number
+) {
+    return await teamApi.removeTeamMember(
+        teamId,
+        userId
+    );
 }
 
 /**
@@ -111,6 +135,18 @@ export async function updateAvatar(
         id,
         file
     );
+
+    return response.team;
+
+}
+
+
+/**
+ * Get user's team
+ */
+export async function getMyTeam(id: number) {
+
+    const response = await teamApi.getMyTeam(id);
 
     return response.team;
 

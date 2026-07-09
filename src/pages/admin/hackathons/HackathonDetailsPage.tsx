@@ -16,22 +16,10 @@ import type { Hackathon } from "../../../api/hackathon.api";
 import type { Judge } from "./HackathonJudgesSection";
 import type { ParticipantItem } from "./HackathonParticipantsSection";
 import type { SubmissionItem } from "./HackathonSubmissionsSection";
-
-// ============================================================================
-// MODALES TEMPORAIRES (En attente d'implémentation de leurs formulaires respectifs)
-// ============================================================================
-const EditHackathonModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
-  isOpen ? <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"><div className="bg-white p-6 rounded-xl max-w-md w-full shadow-xl"><h3 className="text-lg font-bold mb-2">Modifier l'événement</h3><p className="text-sm text-gray-500 mb-4">Formulaire de modification en cours de conception...</p><button onClick={onClose} className="w-full bg-gray-900 text-white py-2 rounded-lg text-sm font-medium">Fermer</button></div></div> : null;
-
-const UpdateStatusModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
-  isOpen ? <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"><div className="bg-white p-6 rounded-xl max-w-md w-full shadow-xl"><h3 className="text-lg font-bold mb-2">Changer le statut</h3><p className="text-sm text-gray-500 mb-4">Sélecteur de flux de statuts à venir...</p><button onClick={onClose} className="w-full bg-gray-900 text-white py-2 rounded-lg text-sm font-medium">Fermer</button></div></div> : null;
-
-const RegisterParticipantModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
-  isOpen ? <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"><div className="bg-white p-6 rounded-xl max-w-md w-full shadow-xl"><h3 className="text-lg font-bold mb-2">Inscrire un participant</h3><p className="text-sm text-gray-500 mb-4">Interface d'attribution manuelle (Solo/Équipe)...</p><button onClick={onClose} className="w-full bg-gray-900 text-white py-2 rounded-lg text-sm font-medium">Fermer</button></div></div> : null;
-
-const AssignJudgeModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
-  isOpen ? <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"><div className="bg-white p-6 rounded-xl max-w-md w-full shadow-xl"><h3 className="text-lg font-bold mb-2">Assigner un juge</h3><p className="text-sm text-gray-500 mb-4">Liste de sélection des comptes de jurés...</p><button onClick={onClose} className="w-full bg-gray-900 text-white py-2 rounded-lg text-sm font-medium">Fermer</button></div></div> : null;
-
+import EditHackathonModal from "./modals/EditHackathonModal";
+import UpdateStatusModal from "./modals/UpdateStatusModal";
+import RegisterParticipantModal from "./modals/RegisterParticipantModal";
+import AssignJudgeModal from "./modals/AssignJudgeModal";
 
 // ============================================================================
 // COMPOSANT PAGE PRINCIPALE ACTIVÉ
@@ -81,12 +69,11 @@ export default function HackathonDetailsPage(): React.JSX.Element {
 
       // Normalisation défensive au cas où l'API renvoie une structure brute différente de l'interface UI
       const normalizedParticipants: ParticipantItem[] = (participantsData || []).map((p: any) => ({
-        id: p.id,
-        type: p.type || (p.memberCount && p.memberCount > 1 ? "team" : "solo"),
-        name: p.name || `${p.firstName || ""} ${p.lastName || ""}`.trim(),
-        contact: p.contact || p.email || "Non renseigné",
+        id: p.participant_id,
+        type: p.participant_type,
+        name: p.team_name || `${p.first_name || ""} ${p.last_name || ""}`.trim(),
+        email: p.email || "Non renseigné",
         memberCount: p.memberCount || 1,
-        registeredAt: p.registeredAt || p.created_at || new Date().toISOString()
       }));
       
       setParticipants(normalizedParticipants);
@@ -196,11 +183,26 @@ export default function HackathonDetailsPage(): React.JSX.Element {
       </div>
 
       {/* SYSTÈME DE MODALES DE LA PAGE */}
-      <EditHackathonModal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} />
-      <UpdateStatusModal isOpen={isStatusModalOpen} onClose={() => setIsStatusModalOpen(false)} />
-      <RegisterParticipantModal isOpen={isRegisterModalOpen} onClose={() => setIsRegisterModalOpen(false)} />
-      <AssignJudgeModal isOpen={isAssignJudgeModalOpen} onClose={() => setIsAssignJudgeModalOpen(false)} />
-      
+        <EditHackathonModal 
+        isOpen={isEditModalOpen} 
+        onClose={() => setIsEditModalOpen(false)} 
+        hackathon={hackathon}
+        onSuccess={loadPageData} // Déclenche le rechargement immédiat de la structure
+        />   
+        <UpdateStatusModal isOpen={isStatusModalOpen} onClose={() => setIsStatusModalOpen(false)} hackathon={hackathon} onSuccess={loadPageData} />
+            <RegisterParticipantModal 
+            isOpen={isRegisterModalOpen} 
+            onClose={() => setIsRegisterModalOpen(false)} 
+            hackathonId={hackathonId}
+            onSuccess={loadPageData} // Rafraîchit la liste des participants à l'écran
+            />
+            
+        <AssignJudgeModal 
+        isOpen={isAssignJudgeModalOpen} 
+        onClose={() => setIsAssignJudgeModalOpen(false)} 
+        hackathonId={hackathonId}
+        onSuccess={loadPageData} // Déclenche la mise à jour visuelle du tableau des juges
+        />      
     </div>
   );
 }

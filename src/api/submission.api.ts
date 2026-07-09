@@ -6,7 +6,7 @@ export interface Submission {
     description: string;
     github_url?: string | null;
     figma_url?: string | null;
-    presentation_url?: string | null;
+    presentation?: string | null;
     team_id: number;
     created_at: string;
     updated_at: string;
@@ -17,6 +17,7 @@ export interface CreateSubmissionRequest {
     description: string;
     github_url?: string;
     figma_url?: string;
+    hackathon_id: number
 }
 
 export interface UpdateSubmissionRequest {
@@ -24,6 +25,7 @@ export interface UpdateSubmissionRequest {
     description?: string;
     github_url?: string;
     figma_url?: string;
+    hackathon_id: number
 }
 
 /**
@@ -46,6 +48,19 @@ export async function getSubmissionById(id: number) {
 
     return data;
 
+}
+
+/**
+ * Get my submission for a hackathon
+ */
+export async function getMySubmission(
+    hackathonId: number
+) {
+    const { data } = await api.get(
+        `/submissions/hackathons/${hackathonId}/my-submission`
+    );
+
+    return data;
 }
 
 /**

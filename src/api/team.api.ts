@@ -1,12 +1,16 @@
 import api from "./api";
+import type { User } from "./user.api";
 
 export interface Team {
     id: number;
     name: string;
     description: string;
-    avatar?: string | null;
+    avatar_url?: string | null;
     hackathon_id: number;
+    hackathon_title: string;
     leader_id: number;
+    leader: User;
+    members: User[];
     created_at: string;
     updated_at: string;
 }
@@ -22,14 +26,22 @@ export interface UpdateTeamRequest {
     description?: string;
 }
 
+export interface GetTeamsResponse {
+    teams: Team[];
+    total: number;
+    page: number;
+    limit: number;
+    total_pages: number;
+}
+
 /**
  * GET /teams
  */
-export async function getAllTeams() {
+export async function getAllTeams(params?: any) {
 
-    const { data } = await api.get("/teams");
+    const response = await api.get<GetTeamsResponse>("/teams", { params });
 
-    return data;
+    return response.data;
 
 }
 
@@ -91,17 +103,36 @@ export async function deleteTeam(id: number) {
 }
 
 /**
- * POST /teams/:id/join
+ * Add a member to a team
  */
-export async function joinTeam(id: number) {
-
+export async function addTeamMember(
+    teamId: number,
+    userId: number
+) {
     const { data } = await api.post(
-        `/teams/${id}/join`
+        `/teams/${teamId}/add-member`,
+        {
+            user_id: userId,
+        }
     );
 
     return data;
-
 }
+
+/**
+ * Remove member from a team
+ */
+export async function removeTeamMember(
+    teamId: number,
+    userId: number
+) {
+    const { data } = await api.delete(
+        `/teams/${teamId}/members/${userId}`
+    );
+
+    return data;
+}
+
 
 /**
  * DELETE /teams/:id/leave
@@ -153,4 +184,13 @@ export async function updateAvatar(
 
     return data;
 
+}
+
+
+export async function getMyTeam(hackathonId: number) {
+    const { data } = await api.get(
+        `/teams/hackathons/${hackathonId}/my-team`
+    );
+
+    return data;
 }

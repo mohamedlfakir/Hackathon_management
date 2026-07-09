@@ -4,7 +4,8 @@ import { Users, UserPlus, Trash2, Mail, Loader2 } from "lucide-react";
 // Structure type d'un juge (ajustable selon votre backend)
 export interface Judge {
   id: number;
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   avatar_url?: string;
   specialty?: string;
@@ -79,18 +80,18 @@ export default function HackathonJudgesSection({
                   {judge.avatar_url ? (
                     <img
                       src={judge.avatar_url}
-                      alt={judge.name}
+                      alt={`${judge.first_name} ${judge.last_name}`}
                       className="w-9 h-9 rounded-full object-cover border border-gray-100 shrink-0"
                     />
                   ) : (
                     <div className="w-9 h-9 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-sm flex items-center justify-center shrink-0">
-                      {judge.name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                      {`${judge.first_name[0]}${judge.last_name[0]}`.toUpperCase()}
                     </div>
                   )}
                   
                   <div className="min-w-0">
                     <h4 className="text-sm font-semibold text-gray-900 truncate">
-                      {judge.name}
+                      {`${judge.first_name} ${judge.last_name}`}
                     </h4>
                     {judge.specialty && (
                       <p className="text-xs text-indigo-600 font-medium truncate mb-0.5">

@@ -101,6 +101,19 @@ export async function deleteHackathon(id: number) {
 
 }
 
+
+export async function assignUserByAdmin(hackathonId: number, userId: number) {
+
+    const { data } = await api.post(
+        `/hackathons/${hackathonId}/assign-user`,
+        { userId: userId }
+    );
+
+    return data;
+
+}
+
+
 export async function registerParticipant(id: number) {
 
     const { data } = await api.post(
@@ -137,7 +150,7 @@ export async function assignJudge(
 ) {
 
     const { data } = await api.post(
-        `/hackathons/${hackathonId}/assign-judge`,
+        `/hackathons/${hackathonId}/judges`,
         {
             judge_id: judgeId,
         }
@@ -153,7 +166,7 @@ export async function removeJudge(
 ) {
 
     const { data } = await api.delete(
-        `/hackathons/${hackathonId}/remove-judge/${judgeId}`
+        `/hackathons/${hackathonId}/judges/${judgeId}`
     );
 
     return data;
@@ -246,4 +259,14 @@ export async function getHackathonSubmissions(hackathonId: number) {
  
     return data;
  
+}
+
+/**
+ * Check if the authenticated user is a participant
+ */
+export async function isParticipant(hackathonId: number) {
+    const { data } = await api.get(
+        `/hackathons/${hackathonId}/is-participant`
+    );
+    return data;
 }

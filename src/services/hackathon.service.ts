@@ -1,8 +1,8 @@
 import * as hackathonApi from "../api/hackathon.api";
 
-import type {
-    CreateHackathonRequest,
-    UpdateHackathonRequest,
+import {
+    type CreateHackathonRequest,
+    type UpdateHackathonRequest,
 } from "../api/hackathon.api";
 
 export async function getAllHackathons(params?: any) {
@@ -44,25 +44,15 @@ export async function updateHackathon(
 
 }
 
-export async function deleteHackathon(id: number) {
 
-    return await hackathonApi.deleteHackathon(id);
+export async function assignUserByAdmin(hackathonId: number, userId: number) {
 
-}
+    const response = await hackathonApi.assignUserByAdmin(hackathonId, userId);
 
-export async function registerParticipant(id: number) {
-
-    const response = await hackathonApi.registerParticipant(id);
-
-    return response.registration;
+    return response.assignment;
 
 }
 
-export async function unregisterParticipant(id: number) {
-
-    return await hackathonApi.unregisterParticipant(id);
-
-}
 
 export async function getSoloParticipants(id: number) {
 
@@ -105,6 +95,13 @@ export async function removeJudge(
     );
 
 }
+
+/**
+ * Check if the authenticated user is a participant
+ */
+export async function isParticipant(hackathonId: number) {
+    return await hackathonApi.isParticipant(hackathonId);
+}   
 
 export async function getHackathonJudges(
     hackathonId: number
@@ -179,4 +176,31 @@ export async function getHackathonSubmissions(
  
     return response.submissions;
  
+}
+
+
+// Participant registration and management functions
+
+export async function deleteHackathon(id: number) {
+
+    return await hackathonApi.deleteHackathon(id);
+
+}
+
+
+
+
+
+export async function registerParticipant(id: number) {
+
+    const response = await hackathonApi.registerParticipant(id);
+
+    return response.registration;
+
+}
+
+export async function unregisterParticipant(id: number) {
+
+    return await hackathonApi.unregisterParticipant(id);
+
 }

@@ -3,8 +3,8 @@ import { User, Users, UserPlus, Calendar, ShieldAlert } from "lucide-react";
 
 export interface ParticipantItem {
   id: number;
-  type: "solo" | "team";
-  name: string;          // Nom de l'utilisateur ou de l'équipe
+  type: "SOLO" | "TEAM";
+  name: string;
   contact: string;       // Email de l'utilisateur ou du chef d'équipe
   memberCount?: number;  // Spécifique aux équipes (ex: 4)
   registeredAt: string;  // Date d'inscription
@@ -56,14 +56,14 @@ export default function HackathonParticipantsSection({
           <UserPlus className="w-3.5 h-3.5" />
           Inscrire
         </button>
-      </div>
+      </div>  
 
       {/* 2. BARRE D'ONGLETS DE FILTRAGE */}
       <div className="flex border-b border-gray-100 bg-gray-50/30 px-4 text-xs font-medium text-gray-500">
         {(["ALL", "TEAM", "SOLO"] as FilterTab[]).map((tab) => {
           const count = tab === "ALL" 
             ? participants.length 
-            : participants.filter(p => p.type === tab.toLowerCase()).length;
+            : participants.filter(p => p.type === tab).length;
 
           return (
             <button
@@ -97,7 +97,7 @@ export default function HackathonParticipantsSection({
             >
               <div className="flex items-center gap-3 min-w-0">
                 {/* Icône changeante selon le type */}
-                {item.type === "team" ? (
+                {item.type === "TEAM" ? (
                   <div className="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 shadow-sm">
                     <Users className="w-4 h-4" />
                   </div>
@@ -113,7 +113,7 @@ export default function HackathonParticipantsSection({
                     <h4 className="text-sm font-semibold text-gray-900 truncate">
                       {item.name}
                     </h4>
-                    {item.type === "team" && item.memberCount && (
+                    {item.type === "TEAM" && item.memberCount && (
                       <span className="inline-block text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded">
                         {item.memberCount} membres
                       </span>

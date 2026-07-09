@@ -8,17 +8,20 @@ import AuthPage from "./pages/public/AuthPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import Dashboard from "./pages/dashboard/Dashboard";
-import Hackathons from "./pages/admin/hackathons/Hackathons";
+import Dashboard from "./pages/Dashboard";
+import Hackathons from "./pages/Hackathons";
 import Settings from "./pages/shared/Settings";
 
-import Team from "./pages/participant/Team";
-import Submission from "./pages/participant/Submission";
+//import Team from "./pages/participant/Team";
+import Team from "./pages/admin/teams/Teams";
 
-import Evaluations from "./pages/judge/Evaluations";
+import Submission from "./pages/participant/submissions/Submission";
+
+import Evaluations from "./pages/judge/evaluations/Evaluations";
 
 import Users from "./pages/admin/users/Users";
-import HackathonDetailsPage from "./pages/admin/hackathons/HackathonDetailsPage";
+import HackathonDetailsPage from "./pages//HackathonDetailsPage";
+
 
 export default function App(): React.JSX.Element {
 
@@ -80,14 +83,7 @@ export default function App(): React.JSX.Element {
                     />
 
                     {/* Participant */}
-                    <Route
-                        path="teams"
-                        element={
-                            <ProtectedRoute roles={["PARTICIPANT", "ADMIN", "MANAGER"]}>
-                                <Team />
-                            </ProtectedRoute>
-                        }
-                    />
+                    
 
                     <Route
                         path="submissions"
@@ -109,6 +105,14 @@ export default function App(): React.JSX.Element {
                     />
 
                     {/* Admin */}
+                    <Route
+                        path="teams"
+                        element={
+                            <ProtectedRoute roles={["ADMIN", "MANAGER"]}>
+                                <Team />
+                            </ProtectedRoute>
+                        }
+                    />
                     <Route
                         path="users"
                         element={

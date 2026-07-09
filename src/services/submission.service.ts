@@ -28,6 +28,17 @@ export async function getSubmissionById(id: number) {
 }
 
 /**
+ * Get my submission for a hackathon
+ */
+export async function getMySubmission(
+    hackathonId: number
+) {
+    return await submissionApi.getMySubmission(
+        hackathonId
+    );
+}
+
+/**
  * Create submission
  */
 export async function createSubmission(

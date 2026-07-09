@@ -1,9 +1,9 @@
 // src/pages/shared/Hackathons.tsx
-import { useAuth } from "../../contexts/AuthContext";
-import AdminDashboard from "./admin/AdminDashboard";
-import JudgeDashboard from "./judge/JudgeDashboard";
-import ParticipantDashboard from "./participant/ParticipantDashboard";
-import OrganizerDashboard from "./organizer/OrganizerDashboard";
+import { useAuth } from "../contexts/AuthContext";
+import AdminDashboard from "./admin/dashboard/Dashboard";
+import JudgeDashboard from "./judge/dashboard/Dashboard";
+import ParticipantDashboard from "./participant/dashboard/Dashboard";
+import OrganizerDashboard from "./manager/dashboard/Dashboard";
 
 export default function Dashboard(): React.JSX.Element {
 
@@ -17,7 +17,7 @@ export default function Dashboard(): React.JSX.Element {
 
     switch (user?.role) {
 
-        case "ADMIN":
+        /*case "ADMIN":
             return <AdminDashboard />;
 
         case "JUDGE":
@@ -27,7 +27,7 @@ export default function Dashboard(): React.JSX.Element {
             return <ParticipantDashboard />;
 
         case "ORGANIZER":
-            return <OrganizerDashboard />;
+            return <OrganizerDashboard />;*/
         default:
             return <div>Unknown role</div>;
 
