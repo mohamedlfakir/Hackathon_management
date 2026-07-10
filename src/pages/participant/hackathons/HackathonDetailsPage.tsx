@@ -13,12 +13,13 @@ import { useAuth } from "../../../contexts/AuthContext";
 import HackathonInfoSection from "./HackathonInfoSection";
 
 // Types
-import type { Hackathon } from "../../../api/hackathon.api";
+import type { Hackathon,RankedSubmissionItem } from "../../../api/hackathon.api";
 import RegisterParticipantModal from "./modals/RegisterParticipantModal";
 import EditTeamModal from "./modals/EditTeamModal";
 import SubmitProjectModal from "./modals/SubmitProjectModal";
 
 import type { Submission } from "../../../api/submission.api";
+import HackathonPodiumSection from "../../public/HackathonPodiumSection";
 
 // Interfaces locales pour l'état du participant
 
@@ -52,6 +53,8 @@ export default function HackathonParticipantPage(): React.JSX.Element {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [hackathonWinners, sethackathonWinners] = useState<RankedSubmissionItem[]>([]);
+  
   // ÉTATS CONTEXTUELS DU PARTICIPANT (Simulés/Adaptables selon vos services actuels)
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [userTeam, setUserTeam] = useState<ParticipantTeam | null>(null);
@@ -77,6 +80,20 @@ export default function HackathonParticipantPage(): React.JSX.Element {
     const hackathonData = await hackathonService.getHackathonById(hackathonId); 
     setHackathon(hackathonData);
 
+      if (hackathonData?.status?.toUpperCase() === "FINISHED") {
+            try {
+              const hackathonWinnersData = await hackathonService.getHackathonWinners(hackathonId);
+              sethackathonWinners(hackathonWinnersData?.data || hackathonWinnersData || []);
+            } catch (winnerErr) {
+              // Sécurité additionnelle : si l'API des vainqueurs échoue, on n'arrête pas toute la page
+              console.error("Erreur lors de la récupération des vainqueurs:", winnerErr);
+              sethackathonWinners([]);
+            }
+          } else {
+            // Si le hackathon n'est pas fini, on vide explicitement l'état des vainqueurs
+            sethackathonWinners([]);
+          }
+       
     // 2. Vérifications d'inscription (Solo et Équipe)
     const isParticipant = await hackathonService.isParticipant(hackathonId);
     const myTeamData = await TeamService.getMyTeam(hackathonId); // vaux null si pas d'équipe
@@ -153,6 +170,11 @@ export default function HackathonParticipantPage(): React.JSX.Element {
         </div>
       </div>
 
+    {/* ================= SECTION VAINQUEURS AU TOP (PLEINE LARGEUR) ================= */}
+            {hackathon.status?.toLowerCase() === "finished" && (
+              <HackathonPodiumSection winners={hackathonWinners} />
+            )}
+            
       {/* DISPOSITION EN GRILLE (2/3 Infos Générales - 1/3 Statut et Actions du Participant) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         

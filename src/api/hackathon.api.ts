@@ -47,6 +47,19 @@ export interface UpdateHackathonRequest {
     is_online?: boolean;
 }
 
+export interface RankedSubmissionItem {
+  id: number;
+  title: string;
+  team_id: number | null;
+  team_name: string | null;
+  user_id: number | null;
+  first_name?: string;
+  last_name?: string;
+  judges_count: number;
+  total_score: number;
+  average_score: number;
+}
+
 export interface JudgeAssignmentRequest {
     judge_id: number;
 }
@@ -269,4 +282,30 @@ export async function isParticipant(hackathonId: number) {
         `/hackathons/${hackathonId}/is-participant`
     );
     return data;
+}
+
+/**
+ * GET /evaluations/hackathons/:hackathonId/ranking
+ */
+export async function getHackathonRanking(hackathonId: number) {
+
+    const { data } = await api.get(
+        `/submissions/${hackathonId}/ranking`
+    );
+
+    return data;
+
+}
+
+/**
+ * GET /evaluations/hackathons/:hackathonId/top-submissions
+ */
+export async function getHackathonWinners(hackathonId: number) {
+
+    const { data } = await api.get(
+        `/submissions/${hackathonId}/top-submissions`
+    );
+
+    return data;
+
 }

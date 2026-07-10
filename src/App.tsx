@@ -21,7 +21,7 @@ import Evaluations from "./pages/judge/evaluations/Evaluations";
 
 import Users from "./pages/admin/users/Users";
 import HackathonDetailsPage from "./pages//HackathonDetailsPage";
-import JudgeSubmissionDetailsPage from "./pages/judge/submissions/JudgeSubmissionDetailsPage";
+import SubmissionDetailsPage from "./pages/SubmissionDetailsPage";
 
 
 export default function App(): React.JSX.Element {
@@ -98,7 +98,7 @@ export default function App(): React.JSX.Element {
                             path="submissions/:submissionId"
                             element={
                             <ProtectedRoute roles={["JUDGE", "ADMIN"]}>
-                                <JudgeSubmissionDetailsPage />
+                                <SubmissionDetailsPage />
                             </ProtectedRoute>}
                         />
                     {/* Judge */}

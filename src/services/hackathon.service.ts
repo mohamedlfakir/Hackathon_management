@@ -204,3 +204,22 @@ export async function unregisterParticipant(id: number) {
     return await hackathonApi.unregisterParticipant(id);
 
 }
+
+
+/**
+ * Get hackathon ranking
+ */
+export async function getHackathonRanking(hackathonId: number) {
+
+    return await hackathonApi.getHackathonRanking(hackathonId);
+
+}
+
+/**
+ * Get top 3 submissions of a hackathon
+ */
+export async function getHackathonWinners(hackathonId: number) {
+
+    return await hackathonApi.getHackathonWinners(hackathonId);
+
+}

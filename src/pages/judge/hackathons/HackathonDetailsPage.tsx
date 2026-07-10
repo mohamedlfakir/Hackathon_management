@@ -10,8 +10,9 @@ import HackathonInfoSection from "./HackathonInfoSection";
 import HackathonSubmissionsSection from "./HackathonSubmissionsSection";
 
 // Importation des types de l'API
-import type { Hackathon } from "../../../api/hackathon.api";
+import type { Hackathon , RankedSubmissionItem} from "../../../api/hackathon.api";
 import type { SubmissionItem } from "./HackathonSubmissionsSection";
+import HackathonPodiumSection from "../../public/HackathonPodiumSection";
 
 // ============================================================================
 // COMPOSANT PAGE PRINCIPALE JURY
@@ -24,6 +25,7 @@ export default function HackathonJudgeDetailsPage(): React.JSX.Element {
   // ÉTATS DES DONNÉES DE LA PAGE
   const [hackathon, setHackathon] = useState<Hackathon | null>(null);
   const [submissions, setSubmissions] = useState<SubmissionItem[]>([]);
+  const [hackathonWinners, sethackathonWinners] = useState<RankedSubmissionItem[]>([]);
   
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,6 +50,19 @@ export default function HackathonJudgeDetailsPage(): React.JSX.Element {
       setHackathon(hackathonData);
       setSubmissions(submissionsData || []);
 
+      if (hackathonData?.status?.toUpperCase() === "FINISHED") {
+        try {
+          const hackathonWinnersData = await hackathonService.getHackathonWinners(hackathonId);
+          sethackathonWinners(hackathonWinnersData?.data || hackathonWinnersData || []);
+        } catch (winnerErr) {
+          // Sécurité additionnelle : si l'API des vainqueurs échoue, on n'arrête pas toute la page
+          console.error("Erreur lors de la récupération des vainqueurs:", winnerErr);
+          sethackathonWinners([]);
+        }
+      } else {
+        // Si le hackathon n'est pas fini, on vide explicitement l'état des vainqueurs
+        sethackathonWinners([]);
+      }
     } catch (err) {
       console.error("Erreur de chargement de la page Hackathon (Juge):", err);
       setError("Une erreur est survenue lors de la récupération des données du hackathon.");
@@ -95,7 +110,11 @@ export default function HackathonJudgeDetailsPage(): React.JSX.Element {
           </div>
         </div>
       </div>
-
+      {/* ================= SECTION VAINQUEURS AU TOP (PLEINE LARGEUR) ================= */}
+        {hackathon.status?.toLowerCase() === "finished" && (
+          <HackathonPodiumSection winners={hackathonWinners} />
+        )}
+        
       {/* DISPOSITION SIMPLIFIÉE (Plus besoin de grid 3 colonnes sans les sidebars) */}
       <div className="space-y-6">
         <HackathonInfoSection hackathon={hackathon} />

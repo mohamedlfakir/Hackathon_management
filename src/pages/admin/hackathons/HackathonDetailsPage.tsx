@@ -12,7 +12,7 @@ import HackathonParticipantsSection from "./HackathonParticipantsSection";
 import HackathonSubmissionsSection from "./HackathonSubmissionsSection";
 
 // Importation des types de l'API
-import type { Hackathon } from "../../../api/hackathon.api";
+import type { Hackathon , RankedSubmissionItem} from "../../../api/hackathon.api";
 import type { Judge } from "./HackathonJudgesSection";
 import type { ParticipantItem } from "./HackathonParticipantsSection";
 import type { SubmissionItem } from "./HackathonSubmissionsSection";
@@ -20,6 +20,8 @@ import EditHackathonModal from "./modals/EditHackathonModal";
 import UpdateStatusModal from "./modals/UpdateStatusModal";
 import RegisterParticipantModal from "./modals/RegisterParticipantModal";
 import AssignJudgeModal from "./modals/AssignJudgeModal";
+import RankedSubmissionsSection from "./RankedSubmissionsSection";
+import HackathonPodiumSection from "../../public/HackathonPodiumSection";
 
 // ============================================================================
 // COMPOSANT PAGE PRINCIPALE ACTIVÉ
@@ -30,6 +32,8 @@ export default function HackathonDetailsPage(): React.JSX.Element {
   const hackathonId = Number(id);
 
   // ÉTATS DES DONNÉES DE LA PAGE
+  const [rankedSubmissions, setRankedSubmissions] = useState<RankedSubmissionItem[]>([]);
+  const [hackathonWinners, sethackathonWinners] = useState<RankedSubmissionItem[]>([]);
   const [hackathon, setHackathon] = useState<Hackathon | null>(null);
   const [judges, setJudges] = useState<Judge[]>([]);
   const [participants, setParticipants] = useState<ParticipantItem[]>([]);
@@ -56,16 +60,32 @@ export default function HackathonDetailsPage(): React.JSX.Element {
     setError(null);
     
     try {
-      const [hackathonData, judgesData, participantsData, submissionsData] = await Promise.all([
+      const [hackathonData, judgesData, participantsData, submissionsData, rankedSubmissionsData] = await Promise.all([
         hackathonService.getHackathonById(hackathonId),
         hackathonService.getHackathonJudges(hackathonId),
         hackathonService.getHackathonParticipants(hackathonId),
-        hackathonService.getHackathonSubmissions(hackathonId)
+        hackathonService.getHackathonSubmissions(hackathonId),
+        hackathonService.getHackathonRanking(hackathonId),
       ]);
 
       setHackathon(hackathonData);
       setJudges(judgesData || []);
       setSubmissions(submissionsData || []);
+
+      setRankedSubmissions(rankedSubmissionsData.data);
+      if (hackathonData?.status?.toUpperCase() === "FINISHED") {
+        try {
+          const hackathonWinnersData = await hackathonService.getHackathonWinners(hackathonId);
+          sethackathonWinners(hackathonWinnersData?.data || hackathonWinnersData || []);
+        } catch (winnerErr) {
+          // Sécurité additionnelle : si l'API des vainqueurs échoue, on n'arrête pas toute la page
+          console.error("Erreur lors de la récupération des vainqueurs:", winnerErr);
+          sethackathonWinners([]);
+        }
+      } else {
+        // Si le hackathon n'est pas fini, on vide explicitement l'état des vainqueurs
+        sethackathonWinners([]);
+      }
 
       // Normalisation défensive au cas où l'API renvoie une structure brute différente de l'interface UI
       const normalizedParticipants: ParticipantItem[] = (participantsData || []).map((p: any) => ({
@@ -103,7 +123,7 @@ export default function HackathonDetailsPage(): React.JSX.Element {
   };
 
   const handleViewSubmission = (submissionId: number) => {
-    navigate(`/admin/submissions/${submissionId}`);
+    navigate(`/myspace/submissions/${submissionId}`);
   };
 
   // Traitement des écrans d'attente et d'erreur
@@ -155,6 +175,11 @@ export default function HackathonDetailsPage(): React.JSX.Element {
         </div>
       </div>
 
+      {/* ================= SECTION VAINQUEURS AU TOP (PLEINE LARGEUR) ================= */}
+    {hackathon.status?.toLowerCase() === "finished" && (
+      <HackathonPodiumSection winners={hackathonWinners} />
+    )}
+    
       {/* DISPOSITION EN GRILLE DE L'ADMINISTRATION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
@@ -177,6 +202,11 @@ export default function HackathonDetailsPage(): React.JSX.Element {
           <HackathonParticipantsSection 
             participants={participants} 
             onOpenRegisterModal={() => setIsRegisterModalOpen(true)} 
+          />
+
+          <RankedSubmissionsSection
+            submissions={rankedSubmissions}
+            onViewDetails={handleViewSubmission}
           />
         </div>
 
