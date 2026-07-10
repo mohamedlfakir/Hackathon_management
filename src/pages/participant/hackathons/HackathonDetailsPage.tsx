@@ -32,14 +32,6 @@ interface ParticipantTeam {
   members: { id: number; first_name: string; last_name: string; isLeader: boolean }[];
 }
 
-interface UserSubmission {
-  id: number;
-  title: string;
-  description: string;
-  repositoryUrl?: string;
-  demoUrl?: string;
-  submittedAt: string;
-}
 
 export default function HackathonParticipantPage(): React.JSX.Element {
   const { id } = useParams<{ id: string }>();
@@ -66,11 +58,12 @@ export default function HackathonParticipantPage(): React.JSX.Element {
   const [isEditTeamModalOpen, setIsEditTeamModalOpen] = useState<boolean>(false);
 
   const loadPageData = async () => {
-  if (isNaN(hackathonId)) {
-    setError("Identifiant de hackathon invalide.");
-    setLoading(false);
-    return;
-  }
+    
+    if (isNaN(hackathonId)) {
+      setError("Identifiant de hackathon invalide.");
+      setLoading(false);
+      return;
+    }
 
   setLoading(true);
   setError(null);
@@ -127,6 +120,75 @@ export default function HackathonParticipantPage(): React.JSX.Element {
     setLoading(false);
   }
 };
+
+// Détermination de la configuration visuelle selon le statut pour un non-inscrit
+const registrationConfig = (() => {
+  const status = hackathon?.status?.toUpperCase();
+
+  switch (status) {
+    case "CLOSED":
+      return {
+        message: "Les inscriptions à ce hackathon sont désormais clôturées. Il n'est plus possible de rejoindre l'événement.",
+        bannerClass: "bg-gray-50 border-gray-200 text-gray-500",
+        iconClass: "text-gray-400",
+        btnText: "Inscriptions closes",
+        isDisabled: true,
+      };
+    case "FINISHED":
+      return {
+        message: "Ce hackathon est terminé. Les inscriptions sont définitivement closes.",
+        bannerClass: "bg-red-50 border-red-100 text-red-700",
+        iconClass: "text-red-400",
+        btnText: "Hackathon terminé",
+        isDisabled: true,
+      };
+    case "UPCOMING":
+      return {
+        message: "Ce hackathon n'a pas encore débuté. Les inscriptions ouvriront très prochainement !",
+        bannerClass: "bg-blue-50 border-blue-100 text-blue-700",
+        iconClass: "text-blue-500",
+        btnText: "Inscriptions bientôt disponibles",
+        isDisabled: true,
+      };
+    default:
+      // Cas par défaut : Le hackathon est ouvert/actif et disponible à l'inscription
+      return {
+        message: "Vous n'êtes pas encore inscrit à ce hackathon. Rejoignez l'aventure dès maintenant !",
+        bannerClass: "bg-amber-50 border-amber-200 text-amber-800",
+        iconClass: "text-amber-600",
+        btnText: "S'inscrire au Hackathon",
+        isDisabled: false,
+      };
+  }
+})();
+
+// Détermination de la configuration visuelle de la soumission selon le statut
+const submissionConfig = (() => {
+  const status = hackathon?.status?.toUpperCase();
+
+  if (status === "CLOSED" || status === "FINISHED") {
+    return {
+      title: status === "CLOSED" ? "Soumissions clôturées" : "Hackathon terminé",
+      description: status === "CLOSED" 
+        ? "La période de dépôt des projets est désormais terminée. Il n'est plus possible d'envoyer ou de modifier vos livrables."
+        : "Le hackathon est clos et les résultats ont été publiés. Les soumissions sont définitivement verrouillées.",
+      iconClass: "bg-gray-100 text-gray-400",
+      btnText: status === "CLOSED" ? "Dépôts fermés" : "Événement terminé",
+      btnClass: "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed shadow-none",
+      isDisabled: true,
+    };
+  }
+
+  // Cas par défaut : Le hackathon est en cours et ouvert aux dépôts
+  return {
+    title: "Prêt à soumettre vos travaux ?",
+    description: "Vous pouvez soumettre ou modifier votre projet jusqu'à la date de clôture des dépôts.",
+    iconClass: "bg-indigo-50 text-indigo-600",
+    btnText: "Soumettre le projet",
+    btnClass: "bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm",
+    isDisabled: false,
+  };
+})();
 
   useEffect(() => {
     loadPageData();
@@ -193,23 +255,30 @@ export default function HackathonParticipantPage(): React.JSX.Element {
                 <div className="p-6">
                   {!submission ? (
                     <div className="text-center py-6 space-y-4">
-                      <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center mx-auto">
-                        <Rocket className="w-6 h-6" />
+                        {/* Icône adaptative (Grise si fermé/fini, Indigo si ouvert) */}
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto transition-colors ${submissionConfig.iconClass}`}>
+                          <Rocket className="w-6 h-6" />
+                        </div>
+
+                        <div className="max-w-md mx-auto space-y-1">
+                          <p className="text-sm font-semibold text-gray-900">
+                            {submissionConfig.title}
+                          </p>
+                          <p className="text-xs text-gray-500 leading-relaxed">
+                            {submissionConfig.description}
+                          </p>
+                        </div>
+
+                        {/* Bouton actif ou désactivé selon le statut */}
+                        <button
+                          disabled={submissionConfig.isDisabled}
+                          onClick={() => !submissionConfig.isDisabled && setIsSubmitModalOpen(true)}
+                          className={`inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${submissionConfig.btnClass}`}
+                        >
+                          {submissionConfig.btnText}
+                        </button>
                       </div>
-                      <div className="max-w-md mx-auto space-y-1">
-                        <p className="text-sm font-semibold text-gray-900">Prêt à soumettre vos travaux ?</p>
-                        <p className="text-xs text-gray-500">
-                          Vous pouvez soumettre ou modifier votre projet jusqu'à la date de clôture des dépôts.
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => setIsSubmitModalOpen(true)}
-                        className="inline-flex items-center justify-center px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700 shadow-sm transition-all"
-                      >
-                        Soumettre le projet
-                      </button>
-                    </div>
-                  ) : (
+                      ) : (
                     <div className="space-y-4">
                       {/* Statut de validation */}
                       <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex items-start gap-3">
@@ -314,16 +383,19 @@ export default function HackathonParticipantPage(): React.JSX.Element {
                       </div>
 
                       {/* Boutons d'action en bas de carte */}
-                      <div className="flex justify-end">
-                        <button
-                          onClick={() => setIsSubmitModalOpen(true)}
-                          className="text-xs font-semibold text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-2 bg-white hover:bg-gray-50 transition-colors"
-                        >
-                          Modifier la soumission
-                        </button>
-                      </div>
+                      {/* On n'affiche le bouton QUE si le hackathon n'est NI fermé, NI terminé */}
+                          {hackathon.status?.toUpperCase() !== "CLOSED" && hackathon.status?.toUpperCase() !== "FINISHED" && (
+                            <div className="flex justify-end">
+                              <button
+                                onClick={() => setIsSubmitModalOpen(true)}
+                                className="text-xs font-semibold text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg px-3 py-2 bg-white hover:bg-gray-50 transition-colors"
+                              >
+                                Modifier la soumission
+                              </button>
+                            </div>
+                          )}
                     </div>
-                  )}
+                  )}  
                 </div>
               </div>
             )}
@@ -339,19 +411,25 @@ export default function HackathonParticipantPage(): React.JSX.Element {
             </h3>
 
             {!isRegistered ? (
-              /* CAS 1 : NON INSCRIT */
+              /* CAS 1 : UTILISATEUR NON INSCRIT (DYNAMIQUE SELON LE STATUT) */
               <div className="space-y-4">
-                <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-2.5">
-                  <ShieldAlert className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                  <p className="text-xs text-amber-800 leading-relaxed">
-                    Vous n'êtes pas encore inscrit à ce hackathon. Rejoignez l'aventure dès maintenant !
+                <div className={`p-3 border rounded-xl flex items-start gap-2.5 ${registrationConfig.bannerClass}`}>
+                  <ShieldAlert className={`w-5 h-5 shrink-0 mt-0.5 ${registrationConfig.iconClass}`} />
+                  <p className="text-xs leading-relaxed">
+                    {registrationConfig.message}
                   </p>
                 </div>
+                
                 <button
-                  onClick={() => setIsRegisterModalOpen(true)}
-                  className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-gray-900 text-white rounded-xl text-sm font-semibold hover:bg-gray-800 shadow-sm transition-all"
+                  disabled={registrationConfig.isDisabled}
+                  onClick={() => !registrationConfig.isDisabled && setIsRegisterModalOpen(true)}
+                  className={`w-full inline-flex items-center justify-center px-4 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-all
+                    ${registrationConfig.isDisabled 
+                      ? "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed shadow-none" 
+                      : "bg-gray-900 text-white hover:bg-gray-800"
+                    }`}
                 >
-                  S'inscrire au Hackathon
+                  {registrationConfig.btnText}
                 </button>
               </div>
             ) : (

@@ -77,6 +77,51 @@ export async function getHackathonById(id: number) {
 
 }
 
+
+/**
+ * Get all upcoming hackathons
+ */
+export async function getUpcomingHackathons() {
+    const { data } = await api.get(
+        "/hackathons/upcoming"
+    );
+
+    return data;
+}
+
+/**
+ * Get all active hackathons
+ */
+export async function getActiveHackathons() {
+    const { data } = await api.get(
+        "/hackathons/active"
+    );
+
+    return data;
+}
+
+/**
+ * Get authenticated user's active/upcoming hackathons
+ */
+export async function getMyActiveHackathons() {
+    const { data } = await api.get(
+        "/hackathons/my/active"
+    );
+
+    return data;
+}
+
+/**
+ * Get authenticated user's finished hackathons
+ */
+export async function getMyFinishedHackathons() {
+    const { data } = await api.get(
+        "/hackathons/my/finished"
+    );
+
+    return data;
+}
+
 export async function createHackathon(
     payload: CreateHackathonRequest
 ) {

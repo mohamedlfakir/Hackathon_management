@@ -16,16 +16,16 @@ export default function Dashboard(): React.JSX.Element {
     }
 
     switch (user?.role) {
-
-        /*case "ADMIN":
+/*
+        case "ADMIN":
             return <AdminDashboard />;
 
         case "JUDGE":
             return <JudgeDashboard />;
-
+*/
         case "PARTICIPANT":
             return <ParticipantDashboard />;
-
+/* 
         case "ORGANIZER":
             return <OrganizerDashboard />;*/
         default:

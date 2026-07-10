@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Activity } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 // Importation de notre service hackathon
 import * as hackathonService from "../../../services/hackathon.service";
@@ -110,6 +110,7 @@ export default function HackathonJudgeDetailsPage(): React.JSX.Element {
           </div>
         </div>
       </div>
+
       {/* ================= SECTION VAINQUEURS AU TOP (PLEINE LARGEUR) ================= */}
         {hackathon.status?.toLowerCase() === "finished" && (
           <HackathonPodiumSection winners={hackathonWinners} />

@@ -18,6 +18,36 @@ export async function getHackathonById(id: number) {
 
 }
 
+
+/**
+ * Get all upcoming hackathons
+ */
+export async function getUpcomingHackathons() {
+    return await hackathonApi.getUpcomingHackathons();
+}
+
+/**
+ * Get all active hackathons
+ */
+export async function getActiveHackathons() {
+    return await hackathonApi.getActiveHackathons();
+}
+
+/**
+ * Get authenticated user's active/upcoming hackathons
+ */
+export async function getMyActiveHackathons() {
+    return await hackathonApi.getMyActiveHackathons();
+}
+
+/**
+ * Get authenticated user's finished hackathons
+ */
+export async function getMyFinishedHackathons() {
+    return await hackathonApi.getMyFinishedHackathons();
+}
+
+
 export async function createHackathon(
     payload: CreateHackathonRequest
 ) {

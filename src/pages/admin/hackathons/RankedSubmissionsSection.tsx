@@ -4,8 +4,7 @@ import {
   Medal, 
   Award, 
   Users, 
-  User, 
-  Download, 
+  User,
   Star, 
   ChevronRight,
   ListOrdered
