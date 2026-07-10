@@ -26,13 +26,12 @@ interface NavItem {
 // Single source of truth for the console's navigation. Add a page once here
 // and it shows up for every role that should see it.
 const NAV_ITEMS: NavItem[] = [
-  { label: "Tableau de bord", path: "/myspace", icon: LayoutDashboard, roles: ["ADMIN", "MANAGER", "JUDGE", "PARTICIPANT"], end: true },
-  { label: "Hackathons", path: "/myspace/hackathons", icon: Trophy, roles: ["ADMIN", "MANAGER", "PARTICIPANT","JUDGE"] },
-  { label: "Équipes", path: "/myspace/teams", icon: Users, roles: ["ADMIN", "MANAGER"] },
-  { label: "Soumissions", path: "/myspace/submissions", icon: FolderKanban, roles: ["ADMIN", "MANAGER", "JUDGE"] },
-  { label: "Évaluations", path: "/myspace/evaluations", icon: ClipboardCheck, roles: ["ADMIN", "MANAGER", "JUDGE"] },
+  { label: "Tableau de bord", path: "/myspace", icon: LayoutDashboard, roles: ["ADMIN", "ORGANIZER", "JUDGE", "PARTICIPANT"], end: true },
+  { label: "Hackathons", path: "/myspace/hackathons", icon: Trophy, roles: ["ADMIN", "ORGANIZER", "PARTICIPANT","JUDGE"] },
+  { label: "Équipes", path: "/myspace/teams", icon: Users, roles: ["ADMIN", "ORGANIZER"] },
+  { label: "Soumissions", path: "/myspace/submissions", icon: FolderKanban, roles: ["ADMIN", "ORGANIZER", "JUDGE", "PARTICIPANT"] },
+  { label: "Évaluations", path: "/myspace/evaluations", icon: ClipboardCheck, roles: ["ADMIN", "ORGANIZER", "JUDGE"] },
   { label: "Utilisateurs", path: "/myspace/users", icon: UserCog, roles: ["ADMIN"] },
-  { label: "Paramètres", path: "/myspace/settings", icon: Settings, roles: ["ADMIN", "MANAGER"] },
 ];
 
 export default function Sidebar({

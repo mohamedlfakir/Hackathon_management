@@ -145,6 +145,14 @@ export async function getHackathonJudges(
 
 }
 
+
+export async function getMyAssignedHackathons() {
+
+    const response = await hackathonApi.getMyAssignedHackathons();
+    return response;
+
+}
+
 export async function getJudgeHackathons(
     judgeId: number
 ) {
@@ -252,4 +260,11 @@ export async function getHackathonWinners(hackathonId: number) {
 
     return await hackathonApi.getHackathonWinners(hackathonId);
 
+}
+
+/**
+ * Get dashboard statistics
+ */
+export async function getDashboardStatistics() {
+    return await hackathonApi.getDashboardStatistics();
 }

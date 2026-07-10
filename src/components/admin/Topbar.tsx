@@ -1,9 +1,10 @@
 // src/components/admin/Topbar.tsx
 import { useEffect, useRef, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Menu, Search, Bell, ChevronDown, ChevronRight, LogOut, User, Settings } from "lucide-react";
+import { Menu, Search, Bell, ChevronDown, ChevronRight, LogOut, User, Settings,Home } from "lucide-react";
 import { adminColors, adminFonts, roleLabels } from "../../theme/adminTokens";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // Maps a URL segment to its display label. Extend this as new routes are added.
 const SEGMENT_LABELS: Record<string, string> = {
@@ -16,6 +17,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   settings: "Paramètres",
 };
 
+  
 function Breadcrumbs() {
   const { pathname } = useLocation();
   const segments = pathname.split("/").filter(Boolean);
@@ -134,8 +136,17 @@ function NotificationsMenu() {
 function ProfileMenu() {
   const [open, setOpen] = useState(false);
   const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
-  const { user, loading } = useAuth();
-  console.log("user", user, loading);
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Optionnel : rediriger l'utilisateur ou afficher une notification ici
+    } catch (error) {
+      console.error("Échec de la déconnexion", error);
+    }
+  };
+   const navigate = useNavigate();
    return (
     <div className="relative" ref={ref}>
       <button onClick={() => setOpen((v) => !v)} className="flex items-center gap-2 hover:opacity-70">
@@ -161,21 +172,14 @@ function ProfileMenu() {
           style={{ background: adminColors.surface, border: `1px solid ${adminColors.border}` }}
           className="absolute right-0 mt-2 w-64 rounded-lg shadow-lg overflow-hidden z-50"
         >
-          <button
+          <button onClick={() => navigate(`/myspace/profil`)} 
             className="w-full flex items-center gap-2.5 px-4 py-2.5 hover:opacity-70"
             style={{ color: adminColors.text, fontFamily: adminFonts.body, fontSize: 13.5 }}
           >
             <User size={15} /> Mon profil
           </button>
-          <button
-            className="w-full flex items-center gap-2.5 px-4 py-2.5 hover:opacity-70"
-            style={{ color: adminColors.text, fontFamily: adminFonts.body, fontSize: 13.5 }}
-          >
-            <Settings size={15} /> Paramètres
-          </button>
 
-
-          <button onClick={() => {useAuth().logout(); setOpen(false);}}
+          <button onClick={() => {handleLogout(); setOpen(false)}}
             className="w-full flex items-center gap-2.5 px-4 py-2.5 hover:opacity-70"
             style={{ color: adminColors.danger, fontFamily: adminFonts.body, fontSize: 13.5, borderTop: `1px solid ${adminColors.border}` }}
           >
@@ -188,6 +192,7 @@ function ProfileMenu() {
 }
 
 export default function Topbar({ onOpenMobileSidebar }: { onOpenMobileSidebar: () => void }) {
+ 
   return (
     <header
       style={{ background: adminColors.surface, borderBottom: `1px solid ${adminColors.border}` }}
@@ -200,22 +205,10 @@ export default function Topbar({ onOpenMobileSidebar }: { onOpenMobileSidebar: (
         <Breadcrumbs />
       </div>
 
-      <div className="hidden md:flex items-center gap-2 flex-1 max-w-sm">
-        <div
-          style={{ background: adminColors.bg, border: `1px solid ${adminColors.border}` }}
-          className="flex items-center gap-2 rounded-md px-3 py-2 w-full"
-        >
-          <Search size={15} color={adminColors.faint} />
-          <input
-            placeholder="Rechercher un hackathon, une équipe…"
-            style={{ fontFamily: adminFonts.body, color: adminColors.text, fontSize: 13 }}
-            className="bg-transparent outline-none w-full placeholder:opacity-60"
-          />
-        </div>
-      </div>
+      
 
       <div className="flex items-center gap-3 shrink-0">
-        <NotificationsMenu />
+        
         <div style={{ width: 1, height: 24, background: adminColors.border }} className="hidden sm:block" />
         <ProfileMenu />
       </div>

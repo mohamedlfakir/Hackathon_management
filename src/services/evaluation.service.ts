@@ -121,3 +121,76 @@ export async function deleteEvaluation(
     );
 
 }
+
+
+/**
+ * Get pending submissions of a judge
+ */
+export async function getJudgePendingSubmissions(
+    judgeId: number
+) {
+    return await evaluationApi.getJudgePendingSubmissions(
+        judgeId
+    );
+}
+
+/**
+ * Get pending submissions count of a judge
+ */
+export async function getJudgePendingSubmissionsCount(
+    judgeId: number
+) {
+    return await evaluationApi.getJudgePendingSubmissionsCount(
+        judgeId
+    );
+}
+
+/**
+ * Get evaluated submissions of a judge
+ */
+export async function getJudgeEvaluatedSubmissions(
+    judgeId: number
+) {
+    return await evaluationApi.getJudgeEvaluatedSubmissions(
+        judgeId
+    );
+}
+
+/**
+ * Get evaluated submissions count of a judge
+ */
+export async function getJudgeEvaluatedSubmissionsCount(
+    judgeId: number
+) {
+    return await evaluationApi.getJudgeEvaluatedSubmissionsCount(
+        judgeId
+    );
+}
+
+/**
+ * Get my pending submissions
+ */
+export async function getMyPendingSubmissions() {
+    return await evaluationApi.getMyPendingSubmissions();
+}
+
+/**
+ * Get my pending submissions count
+ */
+export async function getMyPendingSubmissionsCount() {
+    return await evaluationApi.getMyPendingSubmissionsCount();
+}
+
+/**
+ * Get my evaluated submissions
+ */
+export async function getMyEvaluatedSubmissions() {
+    return await evaluationApi.getMyEvaluatedSubmissions();
+}
+
+/**
+ * Get my evaluated submissions count
+ */
+export async function getMyEvaluatedSubmissionsCount() {
+    return await evaluationApi.getMyEvaluatedSubmissionsCount();
+}

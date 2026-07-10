@@ -12,6 +12,8 @@ export default function AdminLayout(): React.JSX.Element {
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
+
+
     return (
 
         <div

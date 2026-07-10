@@ -69,7 +69,45 @@ export async function updateUser(
 
 }
 
+
 /**
+ * Get authenticated user profile
+ */
+export async function getMe() {
+    return await userApi.getMe();
+}
+
+/**
+ * Update authenticated user profile
+ */
+export async function updateProfile(profile: {
+    username: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+}) {
+    return await userApi.updateProfile(profile);
+}
+
+/**
+ * Change authenticated user password
+ */
+export async function changePassword(passwords: {
+    current_password: string;
+    new_password: string;
+}) {
+    return await userApi.changePassword(passwords);
+}
+
+/**
+ * Update authenticated user avatar
+ */
+export async function updateAvatar(file: File) {
+    return await userApi.updateAvatar(file);
+}
+
+/**
+ * 
  * Update user role
  */
 export async function updateUserRole(

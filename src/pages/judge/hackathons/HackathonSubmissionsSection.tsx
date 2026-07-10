@@ -1,5 +1,5 @@
 import React from "react";
-import { FolderGit2, ArrowRight, ExternalLink, GitBranch , Code2, AlertCircle, CheckCircle2 } from "lucide-react";
+import { FolderGit2, ArrowRight, ExternalLink, GitBranch , AlertCircle, CheckCircle2 } from "lucide-react";
 
 export interface SubmissionItem {
   id: number;

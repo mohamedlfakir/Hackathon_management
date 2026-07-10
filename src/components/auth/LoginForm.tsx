@@ -18,7 +18,7 @@ export default function LoginForm({ onSwitch, onSubmit }: LoginFormProps) {
     const password = (form.elements.namedItem("password") as HTMLInputElement)?.value ?? "";
     onSubmit?.({ email, password });
   };
-
+ 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div>

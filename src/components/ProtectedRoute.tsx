@@ -33,6 +33,7 @@ export default function ProtectedRoute({
 
     }
 
+
     /**
      * User is not logged in.
      */
@@ -47,14 +48,13 @@ export default function ProtectedRoute({
         );
 
     }
-
     /**
      * User doesn't have the required role.
      */
     if (
         roles &&
         roles.length > 0 &&
-        !roles.includes(user.role as UserRole)
+        !roles.includes(user?.role as UserRole)
     ) {
 
         return (

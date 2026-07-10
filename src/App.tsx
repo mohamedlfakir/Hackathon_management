@@ -22,6 +22,7 @@ import Evaluations from "./pages/judge/evaluations/Evaluations";
 import Users from "./pages/admin/users/Users";
 import HackathonDetailsPage from "./pages//HackathonDetailsPage";
 import SubmissionDetailsPage from "./pages/SubmissionDetailsPage";
+import ProfilePage from "./pages/shared/Profil";
 
 
 export default function App(): React.JSX.Element {
@@ -83,6 +84,10 @@ export default function App(): React.JSX.Element {
                         element={<Settings />}
                     />
 
+                    <Route
+                        path="profil"
+                        element={<ProfilePage />}
+                    />
                     {/* Participant */}
                     
 

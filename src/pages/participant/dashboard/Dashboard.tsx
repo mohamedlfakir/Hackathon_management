@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { 
-  Trophy, Medal, Rocket, Users, User, Calendar, 
+  Trophy, Rocket, Users, User, 
   ArrowUpRight, CheckCircle2, Clock, Star, Flame, Sparkles
 } from "lucide-react";
 
@@ -13,12 +13,13 @@ import { useNavigate } from "react-router-dom";
 interface ActiveParticipation {
   id: number;
   title: string;
-  type: "SOLO" | "TEAM";
-  teamName?: string;
+  participant_type: "SOLO" | "TEAM";
+  team_name?: string;
   submission_status: "NOT_SUBMITTED" | "SUBMITTED";
+  status: string;
   end_date: string;
   progress: number; // Pourcentage d'avancement du projet
-  category: string;
+  theme: string;
   project_title: string | null;
 
 }
@@ -95,10 +96,7 @@ export default function ParticipantDashboard(): React.JSX.Element {
             loadPageData();
           },[]);
 
-  const handleViewHackathon = (submissionId: number) => {
-    // Redirection vers l'interface Hackathon
-    navigate(`/myspace/hackathons/${submissionId}`);
-  };
+
 
   // --------------------------------------------------------------------------
   // LOGIQUE DE DICTIONNAIRE ET CONFIGURATION DES ETATS
@@ -106,9 +104,9 @@ export default function ParticipantDashboard(): React.JSX.Element {
   const getSubmissionBadge = (status: ActiveParticipation["submission_status"]) => {
     switch (status) {
       case "SUBMITTED":
-        return { text: "Soumis", classes: "bg-emerald-50 text-emerald-700 border-emerald-200" };
+        return { text: "Projet Soumis", classes: "bg-emerald-50 text-emerald-700 border-emerald-200" };
       default:
-        return { text: "Non commencé", classes: "bg-gray-50 text-gray-500 border-gray-200" };
+        return { text: "Projet pas Soumis", classes: "bg-gray-50 text-red-500 border-red-200" };
     }
   };
 
@@ -200,7 +198,7 @@ export default function ParticipantDashboard(): React.JSX.Element {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-indigo-600" />
-                <h2 className="text-lg font-bold text-gray-900">Mes Défis en Cours</h2>
+                <h2 className="text-lg font-bold text-gray-900">Mes Participations en Cours</h2>
                 <span className="bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full font-bold">
                   {myActiveParticipations.length}
                 </span>
@@ -212,7 +210,7 @@ export default function ParticipantDashboard(): React.JSX.Element {
     /* État Vide : S'affiche si le tableau est égal à [] */
     <div className="col-span-1 md:col-span-2 border-2 border-dashed border-gray-200 rounded-xl p-8 text-center bg-gray-50/50">
       <p className="text-sm font-medium text-gray-600">
-        Vous n'avez aucun hackathon en cours pour le moment.
+        Vous n'avez participer a aucun hackathon en cours pour le moment.
       </p>
       <p className="text-xs text-gray-400 mt-1 mb-4">
         Rejoignez une équipe ou lancez-vous en solo sur l'un des défis disponibles !
@@ -227,7 +225,7 @@ export default function ParticipantDashboard(): React.JSX.Element {
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-                {project.category}
+                {project.theme}
               </span>
               <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-md border ${badge.classes}`}>
                 {badge.text}
@@ -239,10 +237,10 @@ export default function ParticipantDashboard(): React.JSX.Element {
             
             {/* Badge Solo / Équipe */}
             <div className="flex items-center gap-1.5 text-xs text-gray-500 pt-1">
-              {project.type === "TEAM" ? (
+              {project.participant_type === "TEAM" ? (
                 <>
                   <Users className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="font-medium">Équipe : <strong className="text-gray-700">{project.teamName}</strong></span>
+                  <span className="font-medium">Équipe : <strong className="text-gray-700">{project.team_name}</strong></span>
                 </>
               ) : (
                 <>
@@ -255,10 +253,7 @@ export default function ParticipantDashboard(): React.JSX.Element {
 
           {/* Section Progression & Jours restants */}
           <div className="space-y-2 pt-2 border-t border-gray-100">
-            <div className="flex justify-between text-xs font-medium">
-              <span className="text-gray-400">Avancement Livrables</span>
-              <span className="text-gray-900 font-bold">{project.progress}%</span>
-            </div>
+            
             <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
               <div 
                 className={`h-full transition-all ${project.progress === 100 ? "bg-emerald-500" : "bg-indigo-600"}`}
@@ -273,6 +268,13 @@ export default function ParticipantDashboard(): React.JSX.Element {
               <button className="inline-flex items-center text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
                 Gérer mon projet <ArrowUpRight className="w-3.5 h-3.5 ml-0.5" />
               </button>
+            </div>
+            <div> 
+               <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full ${
+                        project.status === "OPEN" ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800"
+                      }`}>
+                        {project.status === "OPEN" ? "INSCRIPTIONS OUVERTES" : "SOUMISSIONS FERME"}
+                      </span>
             </div>
           </div>
         </div>
