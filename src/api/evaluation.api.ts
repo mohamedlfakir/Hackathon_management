@@ -1,8 +1,15 @@
 import api from "./api";
 
-export interface EvaluationScore {
+export interface EvaluationItem  {
     criterion_id: number;
     score: number;
+}
+
+export interface EvaluationCriterion {
+  id: number;
+  code: string;
+  name: string;
+  max_score: number;
 }
 
 export interface Evaluation {
@@ -10,22 +17,54 @@ export interface Evaluation {
     submission_id: number;
     judge_id: number;
     comments: string;
-    scores: EvaluationScore[];
+    scores: EvaluationItem[];
     created_at: string;
     updated_at: string;
 }
 
-export interface CreateEvaluationRequest {
+export interface SubmitEvaluationRequest {
     submission_id: number;
     comments: string;
-    scores: EvaluationScore[];
+    scores: EvaluationItem[];
 }
 
 export interface UpdateEvaluationRequest {
     comments: string;
-    scores: EvaluationScore[];
+    scores: EvaluationItem[];
+}
+/**
+ * GET /evaluations/criteria
+ */
+export async function getEvaluationCriteria() {
+
+    const { data } = await api.get("/evaluations/criteria");
+
+    return data;
+
 }
 
+/**
+ * POST /submissions/:submissionId/evaluations
+ */
+export async function submitEvaluation(
+    submissionId: string,
+    evaluations: {
+        criterion_id: number;
+        score: number;
+        comment?: string;
+    }[]
+) {
+
+    const { data } = await api.post(
+        `/evaluations/${submissionId}`,
+        {
+            evaluations
+        }
+    );
+
+    return data;
+
+}
 /**
  * GET /evaluations
  */
@@ -56,7 +95,22 @@ export async function getSubmissionEvaluations(
 ) {
 
     const { data } = await api.get(
-        `/evaluations/submission/${submissionId}`
+        `/evaluations/submissions/${submissionId}`
+    );
+
+    return data;
+
+}
+
+/**
+ * GET /evaluations/submission/:submissionId
+ */
+export async function getMyEvaluations(
+    submissionId: number
+) {
+
+    const { data } = await api.get(
+        `/evaluations/submissions/${submissionId}/my-evaluation`
     );
 
     return data;
@@ -66,8 +120,9 @@ export async function getSubmissionEvaluations(
 /**
  * POST /evaluations
  */
-export async function createEvaluation(
-    payload: CreateEvaluationRequest
+/*
+export async function submitEvaluation(
+    payload: SubmitEvaluationRequest
 ) {
 
     const { data } = await api.post(
@@ -77,7 +132,7 @@ export async function createEvaluation(
 
     return data;
 
-}
+}*/
 
 /**
  * PUT /evaluations/:id

@@ -1,8 +1,10 @@
 import * as evaluationApi from "../api/evaluation.api";
 
 import type {
-    CreateEvaluationRequest,
+    SubmitEvaluationRequest,
     UpdateEvaluationRequest,
+    EvaluationCriterion,
+    EvaluationItem
 } from "../api/evaluation.api";
 
 /**
@@ -47,20 +49,49 @@ export async function getSubmissionEvaluations(
 }
 
 /**
- * Create evaluation
+ * Get judge evaluations of a submission
  */
-export async function createEvaluation(
-    payload: CreateEvaluationRequest
+export async function getMyEvaluations(
+    submissionId: number
 ) {
 
-    const response = await evaluationApi.createEvaluation(
-        payload
+    const response = await evaluationApi.getMyEvaluations(
+        submissionId
     );
 
     return response.evaluation;
 
 }
 
+/**
+ * Get evaluation criteria
+ */
+export async function getEvaluationCriteria() {
+
+   const response = await evaluationApi.getEvaluationCriteria();
+
+    return response.criteria;
+
+}
+
+/**
+ * Evaluate a submission
+ */
+export async function submitEvaluation(
+    submissionId: string,
+    evaluations: {
+        criterion_id: number;
+        score: number;
+        comment?: string;
+    }[]
+) {
+
+    return await evaluationApi.submitEvaluation(
+        submissionId,
+        evaluations
+    );
+
+}
 /**
  * Update evaluation
  */

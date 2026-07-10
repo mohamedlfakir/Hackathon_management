@@ -21,6 +21,7 @@ import Evaluations from "./pages/judge/evaluations/Evaluations";
 
 import Users from "./pages/admin/users/Users";
 import HackathonDetailsPage from "./pages//HackathonDetailsPage";
+import JudgeSubmissionDetailsPage from "./pages/judge/submissions/JudgeSubmissionDetailsPage";
 
 
 export default function App(): React.JSX.Element {
@@ -88,12 +89,18 @@ export default function App(): React.JSX.Element {
                     <Route
                         path="submissions"
                         element={
-                            <ProtectedRoute roles={["PARTICIPANT", "ADMIN", "MANAGER"]}>
+                            <ProtectedRoute roles={[ "ADMIN", "MANAGER","JUDGE"]}>
                                 <Submission />
                             </ProtectedRoute>
                         }
                     />
-
+                    <Route
+                            path="submissions/:submissionId"
+                            element={
+                            <ProtectedRoute roles={["JUDGE", "ADMIN"]}>
+                                <JudgeSubmissionDetailsPage />
+                            </ProtectedRoute>}
+                        />
                     {/* Judge */}
                     <Route
                         path="evaluations"
@@ -122,7 +129,7 @@ export default function App(): React.JSX.Element {
                         }
                     />
                 <Route
-                    path="*"
+                    path="/myspace/*"
                     element={<Navigate to="/myspace" replace />}
                   />
                 </Route>

@@ -1,7 +1,7 @@
 // src/pages/shared/Hackathons.tsx
 import { useAuth } from "../contexts/AuthContext";
 import AdminHackathonsDetailPage from "./admin/hackathons/HackathonDetailsPage";
-//import JudgeHackathonsDetailPage from "./judge/hackathons/HackathonDetailsPage";
+import JudgeHackathonsDetailPage from "./judge/hackathons/HackathonDetailsPage";
 import ParticipanthackathonsDetailPage from "./participant/hackathons/HackathonDetailsPage";
 
 export default function HackathonDetailsPage(): React.JSX.Element {
@@ -19,8 +19,8 @@ export default function HackathonDetailsPage(): React.JSX.Element {
         case "ADMIN":
             return <AdminHackathonsDetailPage />;
 
-       /* case "JUDGE":
-            return <JudgeHackathonsDetailPage />;*/
+       case "JUDGE":
+            return <JudgeHackathonsDetailPage />;
 
         case "PARTICIPANT":
             return <ParticipanthackathonsDetailPage />;

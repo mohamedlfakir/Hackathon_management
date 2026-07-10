@@ -74,7 +74,7 @@ export default function HackathonParticipantPage(): React.JSX.Element {
 
   try {
     // 1. Récupération des informations générales du Hackathon
-    const hackathonData = await hackathonService.getHackathonById(hackathonId);
+    const hackathonData = await hackathonService.getHackathonById(hackathonId); 
     setHackathon(hackathonData);
 
     // 2. Vérifications d'inscription (Solo et Équipe)
@@ -271,9 +271,9 @@ export default function HackathonParticipantPage(): React.JSX.Element {
                             )}
 
                             {/* Lien Support de Présentation */}
-                            {submission.presentation && (
+                            {submission.presentation_path && (
                               <a
-                                href={submission.presentation}
+                                href={submission.presentation_path}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="flex items-center justify-between p-2.5 bg-white border border-gray-100 rounded-xl text-xs font-semibold text-gray-700 hover:text-amber-600 hover:border-amber-100 shadow-sm transition-all group sm:col-span-2"
@@ -281,7 +281,7 @@ export default function HackathonParticipantPage(): React.JSX.Element {
                                 <div className="flex items-center gap-2 min-w-0">
                                   <FileText className="w-4 h-4 text-amber-600 shrink-0" />
                                   <span className="truncate">
-                                    {submission.presentation.split("/").pop() || "Support de présentation"}
+                                    {submission.presentation_path.split("/").pop() || "Support de présentation"}
                                   </span>
                                 </div>
                                 <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-amber-600 shrink-0" />

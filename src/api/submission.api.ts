@@ -3,11 +3,15 @@ import api from "./api";
 export interface Submission {
     id: number;
     title: string;
+    team_name:string;
     description: string;
     github_url?: string | null;
     figma_url?: string | null;
-    presentation?: string | null;
+    presentation_path?: string | null;
     team_id: number;
+    user_id: number;
+    hackathon_id: number;
+    submitted_at: string;
     created_at: string;
     updated_at: string;
 }
