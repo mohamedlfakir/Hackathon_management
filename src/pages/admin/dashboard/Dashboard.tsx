@@ -200,10 +200,10 @@ export default function AdminDashboard(): React.JSX.Element {
 
       {/* 3. LISTES ROULANTES DES COMPÉTITIONS */}
       <div className="space-y-10">
-        <AdminHackathonSectionRow title="Upcoming Hackathons" hackathons={upcomingHackathons} defaultBadgeColor="bg-blue-100 text-blue-800" navigate={navigate} />
-        <AdminHackathonSectionRow title="Open Hackathons" hackathons={openHackathons} defaultBadgeColor="bg-emerald-100 text-emerald-800" navigate={navigate} />
-        <AdminHackathonSectionRow title="Closed Hackathons" hackathons={closedHackathons} defaultBadgeColor="bg-orange-100 text-orange-800" navigate={navigate} />
-        <AdminHackathonSectionRow title="Finished Hackathons" hackathons={finishedHackathons} defaultBadgeColor="bg-gray-100 text-gray-800" navigate={navigate} />
+        <AdminHackathonSectionRow title="Hackathons A venir" hackathons={upcomingHackathons} defaultBadgeColor="bg-blue-100 text-blue-800" navigate={navigate} />
+        <AdminHackathonSectionRow title="Hackathons Ouvert" hackathons={openHackathons} defaultBadgeColor="bg-emerald-100 text-emerald-800" navigate={navigate} />
+        <AdminHackathonSectionRow title="Hackathons Fermé" hackathons={closedHackathons} defaultBadgeColor="bg-orange-100 text-orange-800" navigate={navigate} />
+        <AdminHackathonSectionRow title="Hackathons Terminé" hackathons={finishedHackathons} defaultBadgeColor="bg-gray-100 text-gray-800" navigate={navigate} />
       </div>
 
     </div>

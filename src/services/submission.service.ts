@@ -8,9 +8,9 @@ import type {
 /**
  * Get all submissions
  */
-export async function getAllSubmissions() {
+export async function getAllSubmissions(params?: any) {
 
-    const response = await submissionApi.getAllSubmissions();
+    const response = await submissionApi.getAllSubmissions(params);
 
     return response.submissions;
 

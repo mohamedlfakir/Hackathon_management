@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import AdminDashboard from "./admin/dashboard/Dashboard";
 import JudgeDashboard from "./judge/dashboard/Dashboard";
 import ParticipantDashboard from "./participant/dashboard/Dashboard";
-import OrganizerDashboard from "./manager/dashboard/Dashboard";
+import OrganizerDashboard from "./organizer/dashboard/Dashboard";
 
 export default function Dashboard(): React.JSX.Element {
 

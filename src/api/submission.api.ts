@@ -35,9 +35,9 @@ export interface UpdateSubmissionRequest {
 /**
  * GET /submissions
  */
-export async function getAllSubmissions() {
+export async function getAllSubmissions(params?: any) {
 
-    const { data } = await api.get("/submissions");
+    const { data } = await api.get("/submissions", {params});
 
     return data;
 

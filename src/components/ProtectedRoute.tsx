@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-type UserRole = "ADMIN" | "JUDGE" | "PARTICIPANT" | "MANAGER";
+type UserRole = "ADMIN" | "JUDGE" | "PARTICIPANT" | "ORGANIZER";
 
 interface ProtectedRouteProps {
     children: ReactNode;

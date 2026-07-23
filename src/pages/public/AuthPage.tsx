@@ -242,13 +242,13 @@ export default function AuthPage(): React.JSX.Element {
     };
 
     return (
-        <div className="w-full py-8 md:py-16 px-4 bg-slate-50 font-sans">
+        <div className="w-full py-4 md:py-4 px-4 bg-slate-50 font-sans">
             
             {/* Embedded Container designed to sit cleanly inside Header/Footer Layout */}
-            <div className="max-w-6xl w-full mx-auto flex flex-col lg:flex-row bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden min-h-[620px]">
+            <div className="max-w-6xl w-full mx-auto flex flex-col lg:flex-row bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
                 
                 {/* LEFT SIDE: Sliding Dual-Form Panel */}
-                <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 relative z-10 bg-white">
+                <div className="w-full lg:w-1/2 flex items-center justify-center p-2 md:p-6 relative z-10 bg-white">
                     
                     {/* Master Card Frame with custom overflow handler */}
                     <div className="w-full max-w-sm overflow-hidden relative py-2">
@@ -306,12 +306,11 @@ export default function AuthPage(): React.JSX.Element {
                                             type="password" 
                                             required
                                             className="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
-                                            placeholder="••••••••"
+                                            placeholder="••••••••"  
                                             value={loginPassword}
                                             onChange={(e) => setLoginPassword(e.target.value)}
                                         />
                                     </div>
-
                                     <button 
                                         type="submit" 
                                         disabled={isLoggingIn}
@@ -327,8 +326,8 @@ export default function AuthPage(): React.JSX.Element {
                                             </>
                                         ) : 'Entrer sur la plateforme'}
                                     </button>
-                                </form>
-
+                                
+                            </form>
                                 <p className="text-center text-xs text-slate-500 mt-6">
                                     N'avez-vous pas de compte ?{' '}
                                     <button 
@@ -338,6 +337,7 @@ export default function AuthPage(): React.JSX.Element {
                                         Créer un profil
                                     </button>
                                 </p>
+                                
                             </div>
 
                             {/* COMPONENT 2: REGISTER FORM PANEL */}
@@ -360,7 +360,7 @@ export default function AuthPage(): React.JSX.Element {
                                         <input
                                             type="text"
                                             required
-                                            className="w-full px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
+                                            className="w-full px-3.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
                                             placeholder="john_doe"
                                             value={regUsername}
                                             onChange={(e) => setRegUsername(e.target.value)}
@@ -375,7 +375,7 @@ export default function AuthPage(): React.JSX.Element {
                                         <input
                                             type="text"
                                             required
-                                            className="w-full px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
+                                            className="w-full px-3.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
                                             placeholder="John"
                                             value={regFirstName}
                                             onChange={(e) => setRegFirstName(e.target.value)}
@@ -389,7 +389,7 @@ export default function AuthPage(): React.JSX.Element {
                                         <input
                                             type="text"
                                             required
-                                            className="w-full px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
+                                            className="w-full px-3.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
                                             placeholder="Doe"
                                             value={regLastName}
                                             onChange={(e) => setRegLastName(e.target.value)}
@@ -401,19 +401,20 @@ export default function AuthPage(): React.JSX.Element {
                                         <input 
                                             type="email" 
                                             required
-                                            className="w-full px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
+                                            className="w-full px-3.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
                                             placeholder="ada@dev.com"
                                             value={regEmail}
                                             onChange={(e) => setRegEmail(e.target.value)}
                                         />
                                     </div>
 
-                                    <div>
-                                        <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Mot de Passe</label>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                             <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Mot de Passe</label>
                                         <input 
                                             type="password" 
                                             required
-                                            className="w-full px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
+                                            className="w-full px-3.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
                                             placeholder="Min 8 characters"
                                             value={regPassword}
                                             onChange={(e) => setRegPassword(e.target.value)}
@@ -425,17 +426,19 @@ export default function AuthPage(): React.JSX.Element {
                                         <input 
                                             type="password" 
                                             required
-                                            className="w-full px-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
+                                            className="w-full px-3.5 py-1 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 transition-all text-sm"
                                             placeholder="Retype password"
                                             value={regConfirmPassword}
                                             onChange={(e) => setRegConfirmPassword(e.target.value)}
                                         />
                                     </div>
 
+                                        </div>
+                                       
                                     <button 
                                         type="submit" 
                                         disabled={isRegistering}
-                                        className="w-full py-2.5 px-4 mt-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-sm font-semibold rounded-lg shadow-sm transition-all active:scale-[0.99] flex items-center justify-center gap-2"
+                                        className="w-full py-1.5 px-4 mt-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white text-sm font-semibold rounded-lg shadow-sm transition-all active:scale-[0.99] flex items-center justify-center gap-2"
                                     >
                                         {isRegistering ? (
                                             <>
@@ -449,7 +452,7 @@ export default function AuthPage(): React.JSX.Element {
                                     </button>
                                 </form>
 
-                                <p className="text-center text-xs text-slate-500 mt-5">
+                                <p className="text-center text-xs text-slate-500 mt-4">
                                     Déjà inscrit?{' '}
                                     <button 
                                         onClick={() => setIsLogin(true)}
@@ -465,14 +468,14 @@ export default function AuthPage(): React.JSX.Element {
                 </div>
 
                 {/* RIGHT SIDE: Animated Showcase & Info Carousel (Light Mode Setup) */}
-                <div className="hidden lg:flex w-1/2 flex-col justify-between p-12 relative bg-gradient-to-tr from-slate-50 via-indigo-50/30 to-violet-50/50 border-l border-slate-100 overflow-hidden">
+                <div className="hidden lg:flex w-1/2 flex-col justify-between p-4 relative bg-gradient-to-tr from-slate-50 via-indigo-50/30 to-violet-50/50 border-l border-slate-100 overflow-hidden">
                     
                     {/* Grid Ambient Accents adapted for high-contrast light setup */}
-                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-40"></div>
+                    <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:2rem_2rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-40"></div>
 
                     {/* Accent subtle light blur elements */}
-                    <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-indigo-200/40 rounded-full blur-[100px]"></div>
-                    <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-violet-200/40 rounded-full blur-[100px]"></div>
+                    <div className="absolute top-1/4 right-1/4 w-50 h-50 bg-indigo-200/40 rounded-full blur-[100px]"></div>
+                    <div className="absolute bottom-1/4 left-1/4 w-50 h-50 bg-violet-200/40 rounded-full blur-[100px]"></div>
 
                     {/* Visual Content Wrapper */}
                     <div className="my-auto flex flex-col items-center relative z-10">
@@ -513,7 +516,7 @@ export default function AuthPage(): React.JSX.Element {
                     </div>
 
                     {/* Bottom Dot indicators */}
-                    <div className="flex justify-center gap-2 relative z-10 mt-auto">
+                    <div className="flex justify-center gap-2 relative z-10 mt-auto mb-8">
                         {CAROUSEL_SLIDES.map((_, index) => (
                             <button
                                 key={index}

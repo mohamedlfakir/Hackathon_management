@@ -101,12 +101,7 @@ export default function Teams() {
             {total} équipe{total > 1 ? "s" : ""} au total
           </p>
         </div>
-        <button
-          style={{ fontFamily: adminFonts.body, color: "#fff", background: adminColors.accent, fontSize: 13.5 }}
-          className="flex items-center gap-1.5 px-4 py-2.5 rounded-md font-medium hover:opacity-90"
-        >
-          <Plus size={16} /> Créer une équipe
-        </button>
+       
       </div>
 
       {/* Toolbar */}

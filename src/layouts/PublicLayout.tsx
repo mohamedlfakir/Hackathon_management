@@ -1,12 +1,9 @@
 // src/layouts/PublicLayout.tsx
-import { useState } from 'react';
-import { Outlet, Link } from 'react-router-dom';
-import { Menu, X, Sparkles } from "lucide-react";
+import { Outlet } from 'react-router-dom';
+import {  Sparkles } from "lucide-react";
 import { colors, fonts } from "../theme/tokens";
 
-const NAV_LINKS = ["Hackathons", "Comment ça marche", "Projets"] as const;
 export default function PublicLayout() {
-    const [open, setOpen] = useState(false);
   return (
     <div>
     <header
@@ -26,55 +23,8 @@ export default function PublicLayout() {
           </span>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((l) => (
-            <a key={l} href="#" style={{ fontFamily: fonts.body, color: colors.muted, fontSize: 14 }} className="hover:opacity-70">
-              {l}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden md:flex items-center gap-3">
-          <button onClick={() => (window.location.href = "/login")} style={{ fontFamily: fonts.body, color: colors.text, fontSize: 14 }} className="px-4 py-2 hover:opacity-70">
-            Se connecter
-          </button>
-          <button
-            onClick={() => (window.location.href = "/register")}
-            style={{ fontFamily: fonts.body, color: "#fff", background: colors.accent, fontWeight: 500, fontSize: 14 }}
-            className="px-4 py-2 rounded-md hover:opacity-90"
-          >
-            S'inscrire
-          </button>
-        </div>
-
-        <button className="md:hidden" onClick={() => setOpen(!open)} style={{ color: colors.text }} aria-label="Menu">
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
-      {open && (
-        <div className="md:hidden px-6 pb-4 flex flex-col gap-4" style={{ borderTop: `1px solid ${colors.border}` }}>
-          {NAV_LINKS.map((l) => (
-            <a key={l} href="#" style={{ fontFamily: fonts.body, color: colors.muted, fontSize: 14 }}>
-              {l}
-            </a>
-          ))}
-          <div className="flex gap-3 pt-2">
-            <button onClick={() => (window.location.href = "/login")}
-              style={{ fontFamily: fonts.body, color: colors.text, fontSize: 14, border: `1px solid ${colors.border}` }}
-              className="px-4 py-2 rounded-md flex-1"
-            >
-              Se connecter
-            </button>
-            <button onClick={() => (window.location.href = "/register")}
-              style={{ fontFamily: fonts.body, color: "#fff", background: colors.accent, fontWeight: 500, fontSize: 14 }}
-              className="px-4 py-2 rounded-md flex-1"
-            >
-              S'inscrire
-            </button>
-          </div>
-        </div>
-      )}
+        </div> 
+     
     </header>
     
       {/* Dynamic Page Content */}

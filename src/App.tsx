@@ -15,9 +15,9 @@ import Settings from "./pages/shared/Settings";
 //import Team from "./pages/participant/Team";
 import Team from "./pages/admin/teams/Teams";
 
-import Submission from "./pages/participant/submissions/Submission";
+import Submissions from "./pages/shared/Submissions";
 
-import Evaluations from "./pages/judge/evaluations/Evaluations";
+import Evaluations from "./pages/shared/Evaluations";
 
 import Users from "./pages/admin/users/Users";
 import HackathonDetailsPage from "./pages//HackathonDetailsPage";
@@ -37,7 +37,7 @@ export default function App(): React.JSX.Element {
 
                 <Route element={<PublicLayout />}>
 
-                    <Route index element={<LandingPage />} />
+                    <Route index element={<AuthPage />} />
 
                     <Route path="login" element={<AuthPage />} />
 
@@ -94,8 +94,8 @@ export default function App(): React.JSX.Element {
                     <Route
                         path="submissions"
                         element={
-                            <ProtectedRoute roles={[ "ADMIN", "MANAGER","JUDGE"]}>
-                                <Submission />
+                            <ProtectedRoute roles={[ "ADMIN", "ORGANIZER","JUDGE"]}>
+                                <Submissions />
                             </ProtectedRoute>
                         }
                     />
@@ -120,7 +120,7 @@ export default function App(): React.JSX.Element {
                     <Route
                         path="teams"
                         element={
-                            <ProtectedRoute roles={["ADMIN", "MANAGER"]}>
+                            <ProtectedRoute roles={["ADMIN", "ORGANIZER"]}>
                                 <Team />
                             </ProtectedRoute>
                         }
